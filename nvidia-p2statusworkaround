@@ -1,0 +1,46 @@
+#!/bin/bash
+#shellcheck disable=SC2086
+
+# Not much useful, you have to set a key shortcut to the widget for this script to work.
+
+Id='com.github.detiam.nvidiap2statusworkaround'
+evaluateScript='qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript'
+invokeShortcut='qdbus org.kde.kglobalaccel /component/plasmashell invokeShortcut'
+
+function failed {
+	echo "NVIDIA P2 Status Workaround is not installed or placed in panel."
+	exit "$1"
+}
+
+if ! xargs -0 $evaluateScript \
+<<- KJS >& /dev/null
+
+	if (!knownWidgetTypes.includes("$Id")) {
+		justgofail
+	}
+
+	KJS
+then
+	failed $?
+fi
+
+if numId=$(xargs -0 $evaluateScript \
+ <<- KJS
+
+	panelIds.forEach((panelId) => {
+		panel = panelById(panelId);
+		if (!panel) {return}
+		panel.widgetIds.forEach((widgetId) => {
+			Widget = panel.widgetById(widgetId);
+			if (Widget.type === "$Id") {
+				print(widgetId)
+			}
+		});
+	});
+
+	KJS
+); then
+	$invokeShortcut "activate widget $numId"
+else
+	failed $?
+fi

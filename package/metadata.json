@@ -1,0 +1,29 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "dehe_tian@outlook.com",
+                "Name": "detiam"
+            }
+        ],
+        "Category": "System",
+        "Description": "Toggle nvidia GPU to lower speed, save power.",
+        "Description[zh_CN]": "将nvidia GPU切换到较低的速度，以节省电力。",
+        "EnabledByDefault": true,
+        "FormFactors": [
+            "desktop"
+        ],
+        "Icon": "nvidia-settings",
+        "Id": "com.github.detiam.nvidiap2statusworkaround",
+        "License": "GPL-2.0+",
+        "Name": "Nvidia P2status Workaround",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "1.0",
+        "Website": "https://github.com/detiam/nvidiap2statusworkaround"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-StandAloneApp": true
+}
