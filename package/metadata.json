@@ -17,6 +17,7 @@
         "Id": "com.github.detiam.nvidiap2statusworkaround",
         "License": "GPL-2.0+",
         "Name": "Nvidia P2status Workaround",
+        "Name[zh_CN]": "英伟达强制 P2status 临时解决方案",
         "ServiceTypes": [
             "Plasma/Applet"
         ],

@@ -1,0 +1,28 @@
+# Translation of nvidiap2statusworkaround in LANGUAGE
+# Copyright (C) 2023
+# This file is distributed under the same license as the nvidiap2statusworkaround package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: nvidiap2statusworkaround\n"
+"Report-Msgid-Bugs-To: https://github.com/detiam/nvidiap2statusworkaround\n"
+"POT-Creation-Date: 2023-07-24 20:17+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /home/detian/公共/nvidiap2statusworkaround/package/contents/../contents/config/config.qml
+#, kde-format
+msgid "General"
+msgstr ""
+
+#: /home/detian/公共/nvidiap2statusworkaround/package/contents/../contents/ui/configGeneral.qml
+#, kde-format
+msgid "Systemd Service Name:"
+msgstr ""
