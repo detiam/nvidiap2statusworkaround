@@ -1,0 +1,17 @@
+[Unit]
+Description=Nvidia P2status Workaround Service
+After=default.target graphical.target multi-user.target
+Before=boot-complete.target
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=2s
+ExecStart=/usr/bin/sh -c "nvidia-smi -lgc 210,600 & nvidia-smi -lmc 405,810"
+ExecStop=/usr/bin/sh -c "nvidia-smi -rgc & nvidia-smi -rmc"
+
+[Install]
+WantedBy=multi-user.target

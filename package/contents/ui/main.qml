@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.5
 
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.1 as PlasmaCore
@@ -7,39 +7,59 @@ import org.kde.plasma.components 3.0 as PlasmaComponents
 Item {
     id: root
 
-    property bool switchState: false
-    property bool switchStatefail: false
-    
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
     Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
     Plasmoid.compactRepresentation: Plasmoid.fullRepresentation
+
+    property bool firstTime: true
+    property bool initModeState: false
+    property bool changeModeStateFailed: false
+    property string servName: plasmoid.configuration.servName
+
+    function lowClock(enableOrDisable, callbacks) {
+        let command = 'systemctl '+enableOrDisable+' --now '+servName+''
+        executable.exec(command, callbacks)
+    }
+
+    Component.onCompleted: {
+        executable.exec('systemctl is-active '+servName+'', function(retcode, stdout) {
+            if (retcode == 0 && stdout.trim() === 'active') {
+                initModeState = true
+            } else {
+                initModeState = false
+            }
+        })
+    }
 
     PlasmaComponents.Switch {
         id: toggleSwitch
 
         anchors.centerIn: parent
-        checked: root.switchState
+
         transform: Translate { x: 2 }
-        
+        checked: initModeState
         onCheckedChanged: {
-            if (switchStatefail) {
-                switchStatefail = false
+            if (firstTime) { firstTime = false
+                if (initModeState) { return }
+            }
+            if (changeModeStateFailed) {
+                changeModeStateFailed = false
             } else {
                 if (checked) {
-                    executable.exec('pkexec sh -c "nvidia-smi -lgc 210,600 & nvidia-smi -lmc 405,810"', function(retcode) {
+                    lowClock('enable', function(retcode) {
                         if(retcode !== 0) {
-                            switchStatefail = true
-                            toggleSwitch.checked = false
+                            changeModeStateFailed = true
+                            checked = false
                         }
                     })
                 } else {
-                    executable.exec('pkexec sh -c "nvidia-smi -rgc & nvidia-smi -rmc"', function(retcode) {
+                    lowClock('disable', function(retcode) {
                         if(retcode !== 0) {
-                            switchStatefail = true
-                            toggleSwitch.checked = true
+                            changeModeStateFailed = true
+                            checked = true
                         }
                     })
-                }   
+                } 
             }
         }
     }
